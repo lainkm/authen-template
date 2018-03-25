@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+  <link href="{% static 'css/register.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+  <div class="cover">
+    {% if form.non_field_errors %}
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          {{ error }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+   <div class="cover">
+    <div class="signup">
+      <h3>Log In</h3>
+      <form method="post" action="{% url 'login' %}" role="form">
+        {% csrf_token %}
+        <div class="form-group{% if form.username.errors %} has-error{% endif %}">
+          <label for="username">Username or Email:</label>
+          <input type="text" class="form-control" id="username" name="username">
+          {% for error in form.username.errors %}
+            <label class="control-label">{{ error }}</label>
+          {% endfor %}
+        </div>
+        <div class="form-group{% if form.password.errors %} has-error{% endif %}">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" name="password">
+          {% for error in form.password.errors %}
+            <label class="control-label">{{ error }}</label>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-default">Log in</button>
+          <a href="{% url 'register' %}" class="btn btn-link">Register</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock body %}

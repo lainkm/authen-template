@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{%block main%}
+
+<div class="list-group">
+    <ul>
+{%for u in user_list%}
+      <li class="list-group-item">
+        <img src="{{ u.get_picture }}" class="img-thumbnail" width="60" height="60">
+        <a href="{{ u.get_absolute_url }}" class="btn btn-link">{{ u.username }}</a>has joined us!
+      </li>
+{%endfor%}
+    </ul>
+</div>
+
+<nav aria-label="Page navigation" style="text-align: center;">
+  {% if is_paginated %}
+  <div class=pagination>
+    {% if page_obj.has_previous %}
+       <a href="?page={{ page_obj.previous_page_number }}">&laquo; Prev</a>
+    {% else %}
+      <span class=disabled>&laquo; Prev</span>
+    {% endif %} — <strong>{{ page_obj.number }} / {{ paginator.num_pages }}</strong> — 
+
+    {% if page_obj.has_next %}
+       <a href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+    {% else %}
+      <span class=disabled>Next &raquo;</span>
+    {% endif %}
+  </div>
+  {% endif%}
+<nav aria-label="Page navigation">
+
+{% endblock main%}

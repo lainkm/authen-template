@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ page_user.nickname }}{% endblock %}
+
+
+
+{% block main %}
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      
+  <div class="page-header">
+  </div>
+  <div class="profile">
+    <div class="row">
+        <table class="table table-hover">
+  <thead>
+    <tr>
+      <th><img src="{{ page_user.get_picture }}" class="img-thumbnail" width="60" height="60"></th>
+      <th><a href="{% url 'picture' %}" class="btn btn-link">Change Profile Photo</a> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="glyphicon glyphicon-user"></span>Username</td>
+      <td>{{ page_user.username }}</</td>
+    </tr>
+    <tr>
+      <td><span class="glyphicon glyphicon-envelope"></span>Email</td>
+      <td>{{ page_user.email }}</</td>
+    </tr>
+    <tr>
+      <td><span class="glyphicon glyphicon glyphicon-pencil"></span>Nickname</td>
+      <td>{{ page_user.nickname }}</</td>
+    </tr>
+    <tr>
+      <td><span class="glyphicon glyphicon-map-marker"></span> Location</td>
+      <td>{{ page_user.location }}</</td>
+    </tr>
+  </tbody>
+</table>
+       {% if page_user.username == user.username %}
+          <a href="{% url 'settings' %}" class="btn btn-link">Account Settings</a> 
+          <a href="{% url 'password' %}" class="btn btn-link">Reset Password</a> 
+      {%endif%}          
+      </div>
+  </div>
+
+{% endblock main %}
