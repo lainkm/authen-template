@@ -20,5 +20,6 @@ from authen import views as index_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authen.urls')),
-    path('', index_views.IndexView.as_view(), name='index')
+    path('', index_views.IndexView.as_view(), name='index'),
+    path('oauth/', include('oauth.urls'))
 ]

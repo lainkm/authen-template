@@ -9,4 +9,8 @@ message = forms.CharField(widget=forms.Textarea)
 
 自带的login默认的跳转界面通过settings里面设置
 
-2.
+2.第三方认证框架：
+pip install python-social-auth==0.2.12
+pip install django-allauth
+pip install social-auth-app-django
+

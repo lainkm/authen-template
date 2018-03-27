@@ -12,12 +12,13 @@ from django.views.generic import ListView
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import cloudinary.uploader
+from bbs.base_settings import CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET
 
 # 先注册
 cloudinary.config( 
-  cloud_name = "*************", 
-  api_key = "***************", 
-  api_secret = "*************" )
+  cloud_name = CLOUD_NAME, 
+  api_key = CLOUD_KEY, 
+  api_secret = CLOUD_SECRET)
 
 def register(request):
     """

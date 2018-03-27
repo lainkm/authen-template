@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from .base_settings import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,3 +137,12 @@ AUTHENTICATION_BACKENDS = ('authen.backends.CustomBackend',)
 
 # 允许注册的域名
 ALLOWED_SIGNUP_DOMAINS = ['*']
+
+
+# 第三方登陆
+# GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
+# GITHUB_CLIENTID = 'your lient_id'
+# GITHUB_CLIENTSECRET = 'your lient_secret'
+
+# # 这里是github认证处理的url,就是自己处理登陆逻辑(被坑好好久)
+# GITHUB_CALLBACK = 'http://localhost:8001/oauth/github/'

@@ -55,6 +55,9 @@ class UserProfile(AbstractUser):
 		return self.username
 
 	def get_picture(self):
+		print(self.username, self.picture_url)
+
+
 		if not self.picture_url:
 			no_picture = 'http://res.cloudinary.com/lainly/image/upload/v1521955639/2.png'
 			return no_picture
