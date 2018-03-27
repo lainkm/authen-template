@@ -1,4 +1,22 @@
-# django-authen(用户管理相关方案)
+# django-authen(用户管理相关)
+
+## clone到本地后：
+
+需要自己定义base_settings.py填入隐私配置信息
+
+	# 第三方登陆
+	GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
+	GITHUB_CLIENTID = 'your lient_id'
+	GITHUB_CLIENTSECRET = 'your lient_secret'
+	GITHUB_CALLBACK = 'http://localhost:8001/oauth/github/'
+
+	# 上传到cloudinay，需要注册
+	CLOUD_NAME = 'yours'
+	CLOUD_KEY = 'yours'
+	CLOUD_SECRET = 'yours'
+
+> 或者，手动改settings，写成环境变量 .env中读取<br>
+或者，写成config.py，顺便写出不同环境的配置类..因为不用部署先就省了
 
 ## 解决如下功能
 
@@ -6,9 +24,9 @@
 
 上传头像，第三方登陆如github，二维码登陆，邮箱验证
 
-TODO：
-绑定多个社交网站
-除了github, weibo之外的第三方登陆
+TODO：<br>
+绑定多个社交网站<br>
+除了github, weibo之外的第三方登陆<br>
 
 ### 用户注册方案：
 
@@ -20,7 +38,7 @@ TODO：
 
 #### 方案二：在Django自带的用户认证的基础上进行重写
 
-<b>内容在authen包</b>
+<b>[内容在authen包]</b>
 
 重写1：继承自AbstractUser类，在原有数据库表基础上添加额外字段(settings里增加AUTH_USER_MODEL)。修改user和email共同认证，重写authenticate方法(settings里增加Backend认证列表). login使用自带auth，重新写了register和pwreset
 
@@ -52,14 +70,14 @@ TODO
 
 #### 方案一：存在本地media文件夹
 
-<b>内容在</b>
+<b>[内容在]</b>
 数据库字段使用ImageField，每个用户一个默认图片，前端直接上传文件，保存在服务器文件夹
 
 如http://1270.0.1:8001/media/avatar/2018/03/27/express.png
 
 #### 方案二：存在云里
 
-<b>内容在authen的头像处理</b>
+<b>[内容在authen的头像处理]</b>
 
 数据库字段使用CharField保存图片的url，每个用户使用一个默认图片，前端上传文件，保存在cloudinary
 
@@ -71,8 +89,8 @@ TODO
 
 #### 方案四：使用第三方认证包提供的处理
 
-比如：
-django-allauth
+比如：<br>
+django-allauth<br>
 提供了很好的url
 
 #### 方案五..
@@ -84,33 +102,33 @@ TODO
 
 #### 方案一：模拟oauth认证流程，
 
-oauth2.0(开放授权)：互联网标准协议，获得储存在其他服务商的信息
-原理：
-user要通过github登陆client，
-client向user询问授权,
-user同意授权
-client告诉github已经拿到授权，
-github(认证服务器)验证授权无误，向client发放token(令牌)
-client拿到token，向github(资源服务器)申请获取资源
-github(资源服务器)确认token无误，同意给予资源
-（第三方认证服务器和资源服务器可以是同一个）
+oauth2.0(开放授权)：互联网标准协议，获得储存在其他服务商的信息<br>
+原理：<br>
+user要通过github登陆client，<br>
+client向user询问授权,<br>
+user同意授权<br>
+client告诉github已经拿到授权，<br>
+github(认证服务器)验证授权无误，向client发放token(令牌)<br>
+client拿到token，向github(资源服务器)申请获取资源<br>
+github(资源服务器)确认token无误，同意给予资源<br>
+（第三方认证服务器和资源服务器可以是同一个）<br>
 
-几种模式：授权码模式，简化模式，密码模式，客户端模式
-
-
+几种模式：授权码模式，简化模式，密码模式，客户端模式<br>
 
 
-<b>oauth包里的github登陆</b>
 
-1.首先在github上setting的开发者选项里找到添加oauth，填上服务器ip:port/域名/本地，创建，并在本页找到自己的client_id，和client_secret
+
+<b>[oauth包里的github登陆]</b>
+
+1.首先在github上setting的开发者选项里找到添加oauth，填上服务器ip:port/域名/本地，创建，并在本页找到自己的client_id，和client_secret<br>
 2.在自己的项目中settings里添加
 
 	GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 	GITHUB_CLIENTID = 'your client_id'
 	GITHUB_CLIENTSECRET = 'your client_secret'
 	GITHUB_CALLBACK = 'http://localhost:8000/oauth/github/'  # 认证好之后返回的url
-3.在urls里添加github_login，和github两个url，并在views里实现oauth逻辑，解析access_token得到email，username等信息填进数据库等步骤
 
+3.在urls里添加github_login，和github两个url，并在views里实现oauth逻辑，解析access_token得到email，username等信息填进数据库等步骤
 
 
 #### 方案二：第三方包

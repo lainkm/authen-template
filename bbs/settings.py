@@ -143,6 +143,9 @@ ALLOWED_SIGNUP_DOMAINS = ['*']
 # GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
 # GITHUB_CLIENTID = 'your lient_id'
 # GITHUB_CLIENTSECRET = 'your lient_secret'
-
-# # 这里是github认证处理的url,就是自己处理登陆逻辑(被坑好好久)
 # GITHUB_CALLBACK = 'http://localhost:8001/oauth/github/'
+
+# 上传到cloudinay，需要注册
+# CLOUD_NAME = 'yours'
+# CLOUD_KEY = 'yours'
+# CLOUD_SECRET = 'yours'
