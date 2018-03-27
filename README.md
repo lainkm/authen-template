@@ -1,8 +1,8 @@
 # django-authen(用户管理相关)
 
-## clone到本地后：
+<b>clone到本地后：</b>
 
-需要自己定义base_settings.py填入隐私配置信息
+需要自己定义bbs/base_settings.py填入隐私配置信息
 
 	# 第三方登陆
 	GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize'
@@ -38,7 +38,7 @@ TODO：<br>
 
 #### 方案二：在Django自带的用户认证的基础上进行重写
 
-<b>[内容在authen包]</b>
+实例：[authen](https://github.com/lainkm/authen-template/tree/master/authen)
 
 重写1：继承自AbstractUser类，在原有数据库表基础上添加额外字段(settings里增加AUTH_USER_MODEL)。修改user和email共同认证，重写authenticate方法(settings里增加Backend认证列表). login使用自带auth，重新写了register和pwreset
 
@@ -70,14 +70,13 @@ TODO
 
 #### 方案一：存在本地media文件夹
 
-<b>[内容在]</b>
-数据库字段使用ImageField，每个用户一个默认图片，前端直接上传文件，保存在服务器文件夹
+实例：[]()
 
-如http://1270.0.1:8001/media/avatar/2018/03/27/express.png
+数据库字段使用ImageField，每个用户一个默认图片，前端直接上传文件，保存在服务器文件夹（根据日期等保存）
 
 #### 方案二：存在云里
 
-<b>[内容在authen的头像处理]</b>
+实例：[authen.views](https://github.com/lainkm/authen-template/blob/master/authen/views.py)
 
 数据库字段使用CharField保存图片的url，每个用户使用一个默认图片，前端上传文件，保存在cloudinary
 
@@ -118,7 +117,7 @@ github(资源服务器)确认token无误，同意给予资源<br>
 
 
 
-<b>[oauth包里的github登陆]</b>
+实例：[oauth](https://github.com/lainkm/authen-template/tree/master/oauth)
 
 1.首先在github上setting的开发者选项里找到添加oauth，填上服务器ip:port/域名/本地，创建，并在本页找到自己的client_id，和client_secret<br>
 2.在自己的项目中settings里添加
