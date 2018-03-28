@@ -12,7 +12,14 @@ from django.views.generic import ListView
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import cloudinary.uploader
-from bbs.base_settings import CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET
+from bbs.settings import CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET,EMAIL_ASYNC,EMAIL_ACTIVE,DOMAIN
+
+from .utils.token import Token
+from django.core.mail import send_mail
+from .tasks import send_email_async
+from django.conf import settings
+
+token_confirm = Token(settings.SECRET_KEY)
 
 # 先注册
 cloudinary.config( 
@@ -28,6 +35,10 @@ def register(request):
     """
     if request.method != 'POST':
         form = RegisterForm()
+
+        # UserProfile.objects.filter(email="1239842226@qq.com").delete()
+        # UserProfile.objects.filter(email="623489699@qq.com").delete()
+
         return render(request, 'authen/register.html', {'form': form})
 
     form = RegisterForm(request.POST)
@@ -41,10 +52,66 @@ def register(request):
     email = form.cleaned_data.get('email')
     UserProfile.objects.create_user(username=username, password=password, email=email)
 
-    # 创建完直接冲定向到首页
+    # 修改了用户验证方式，也可以传入(username=email, password)，支持用户名和邮箱登陆
     user = authenticate(username=username, password=password)
-    login(request, user)
 
+    # 邮箱一：注册即登陆，不用邮箱登陆
+    if EMAIL_ACTIVE:
+        user.is_active = False
+        user.save()
+
+        token = token_confirm.generate_validate_token(username)
+        #active_key = base64.encodestring(username)
+        #send email to the register email
+        message = "\n".join([
+        u'Thanks for signing up with my BBS',
+        u'You must follow this link to activate your account:',
+        '/'.join(["http:/", DOMAIN,'auth/activate',token]),
+        u'Have fun using, and don\'t hesitate to contact us with your feedback.'
+        ])
+
+        # 网易会屏蔽一些关键字..比如test，account, email?
+        message_title = u'Please Activate'
+
+        if EMAIL_ASYNC:
+            # 异步发送，需要先打开celery，通过celery -A bbs worker -l debug
+            send_email_async.delay(message_title, message, None, [email])
+        else:
+            send_mail(message_title, message, None, [email])
+        
+        message = 'Please verity your email address'
+        messages.add_message(request, messages.INFO, message)
+
+    else:
+        login(request, user)
+        message = 'Welcome to join us'
+        messages.add_message(request, messages.INFO, message)
+
+
+
+    return redirect('/')
+
+def activate(request, token):
+    """
+    the view function is used to accomplish the user register confirm,only after input the link
+    that sent to the register email,user can login the site normally.
+    :param request:
+    :param activate_key:the paragram is gotten by encrypting username when user register
+    :return:
+    """
+    try:
+        username = token_confirm.confirm_validate_token(token)
+    except:
+        return HttpResponse(u'对不起，验证链接已经过期')
+    try:
+        user = UserProfile.objects.get(username=username)
+    except UserProfile.DoesNotExist:
+        return HttpResponse(u'对不起，您所验证的用户不存在，请重新注册')
+    user.is_active = True
+    user.save()
+    login(request, user)
+    message = 'Verity Success!'
+    messages.add_message(request, messages.INFO, message)
     return redirect('/')
 
 # def index(request):

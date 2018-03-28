@@ -133,11 +133,40 @@ github(资源服务器)确认token无误，同意给予资源<br>
 #### 方案二：第三方包
 
 
-### 邮箱验证(异步)：
+### 邮箱验证(含异步)：
 
-#### 方案一：使用自带mail(很好了已经)+celery
+邮箱认证机制：
+生成用户信息，并将用户is_active字段设置为False，验证成功改成True
+根据填入的用户名或邮箱生成token，生成验证url：
+> 最简单使用base64编码，也可以使用序列化的方法
+发送验证邮箱
+用户登陆
+处理
 
-#### 方案二：自己写
+#### 方案一：使用自带mail(很好了已经)
+
+实例：
+
+官网的栗子：
+
+	from django.core.mail import send_mail
+	 
+	send_mail('Subject here', 'Here is the message.', 'from@example.com',
+	    ['to@example.com'], fail_silently=False)
+
+> 缺点：send_mail会建立一个连接，发送多个邮件用send_mass_mail，可以在只建立一个连接的情况下发多个邮件
+
+#### 方案二：使用自带email+celery异步发送邮件
+
+注册邮箱验证还需要发送一个邮件，如果管理员想全部的用户都发一封邮件，就没必要等待页面反应，使用异步
+
+#### 方案三：使用自带的email+celery异步+定时使得未激活的邮箱失效
+
+
+
+
+
+#### 方案四：自己写
 
 ### 二维码登陆：
 

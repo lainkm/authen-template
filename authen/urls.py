@@ -12,5 +12,5 @@ urlpatterns = [
 	path('login/', auth_views.login, {'template_name': 'authen/login.html'}, name='login'),
 	path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
 	path('<str:username>/', views.profile, name="profile"),
-	
+	path('activate/<str:token>/', views.activate, name="activate"),
 ]

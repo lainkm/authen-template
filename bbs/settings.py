@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authen',
+    'oauth',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,26 @@ ALLOWED_SIGNUP_DOMAINS = ['*']
 # CLOUD_NAME = 'yours'
 # CLOUD_KEY = 'yours'
 # CLOUD_SECRET = 'yours'
+
+
+# 阿里云25端口被禁了，用ssl
+# EMAIL_USE_SSL = True
+# EMAIL_HOST = 'smtp.126.com'  
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'yours@126.com' 
+# EMAIL_HOST_PASSWORD = 'your token'  # 这里不是密码，是126这些邮箱的授权码
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # 或者下面也行
+# DEFAULT_FROM_EMAIL = 'name <yours@126.com>'
+
+# BROKER_URL = 'redis://127.0.0.1:6379/0'
+# BROKER_TRANSPORT = 'redis'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0' #结果保持数据库
+
+# 是否使用异步
+EMAIL_ASYNC = 0
+
+# 是否使用未验证邮箱定时设置is_active=0
+EMAIL_ACTIVE = 1
+
+
+DOMAIN = "127.0.0.1:8001"
