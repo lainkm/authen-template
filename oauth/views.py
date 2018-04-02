@@ -43,13 +43,14 @@ def githhub_login(request):
 
 # github认证处理
 def github_auth(request):
-    template_html = 'authen/login.html'
+    template_html = 'authen/index.html'
 
     # 如果申请登陆页面成功后，就会返回code和state(被坑了好久)
     if 'code' not in request.GET:
         return render(request,template_html)
 
     code = request.GET.get('code')
+    print("code: ", code)
 
     # 第二步
     # 将得到的code，通过下面的url请求得到access_token
@@ -62,15 +63,17 @@ def github_auth(request):
         'redirect_uri': GITHUB_CALLBACK,
     }
 
+    # json对象生成url格式
     data = urllib.parse.urlencode(data)
     print('DATA',data)
+
     # 请求参数需要bytes类型
     binary_data = data.encode('utf-8')
     print('data:', data)
 
     # 设置请求返回的数据类型
     headers={'Accept': 'application/json'}
-    req = urllib.request.Request(url, binary_data,headers)
+    req = urllib.request.Request(url, binary_data, headers)
     print('req:', req)
     response = urllib.request.urlopen(req) 
     print('response', response)
@@ -84,9 +87,10 @@ def github_auth(request):
     access_token = result['access_token']
     print('access_token:', access_token)
 
+    # 将token发送给资源服务器获得数据
     url = 'https://api.github.com/user?access_token=%s' \
      % (access_token)
-    response = urllib.request.urlopen(url)
+    response = urllib.request.urlopen(url) # 不用参数，所以不用request对象也行
     html = response.read()
     html = html.decode('ascii')
     data = json.loads(html)

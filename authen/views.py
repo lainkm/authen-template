@@ -16,9 +16,13 @@ from bbs.settings import CLOUD_NAME, CLOUD_KEY, CLOUD_SECRET,EMAIL_ASYNC,EMAIL_A
 
 from .utils.token import Token
 from django.core.mail import send_mail
-from .tasks import send_email_async
 from django.conf import settings
 
+# 缓存
+from django.views.decorators.cache import cache_page
+
+# 国际化
+from django.utils.translation import ugettext as _ 
 token_confirm = Token(settings.SECRET_KEY)
 
 # 先注册
@@ -74,6 +78,8 @@ def register(request):
         message_title = u'Please Activate'
 
         if EMAIL_ASYNC:
+            from .tasks import send_email_async
+
             # 异步发送，需要先打开celery，通过celery -A bbs worker -l debug
             send_email_async.delay(message_title, message, None, [email])
         else:
@@ -120,6 +126,7 @@ def activate(request, token):
 #     print(users_list)
 #     return render(request, 'authen/index.html', {'users_list':'users_list'})
 
+
 class IndexView(ListView):
     """
     首页，返回用户的别名和他们的个人描述
@@ -130,6 +137,10 @@ class IndexView(ListView):
     paginate_by = 6
 
 
+
+
+# 十五分钟缓存
+# @cache_page(60 * 15)
 def profile(request, username):
     """
     个人主页，返回个人信息，自己和其他用户都能看到，自己可编辑
@@ -139,6 +150,7 @@ def profile(request, username):
     context = {
         'page_user': page_user
     }
+    print(request.session.items())
     return render(request, 'authen/profile.html', context)
 
 @login_required
@@ -245,5 +257,44 @@ def save_uploaded_picture(request):
         user.picture_url = result['eager'][0]['secure_url']
         user.save()
 
+<<<<<<< HEAD
     # return redirect(f'/auth/{user.username}/')
     return redirect('/auth/{}/'.format(user.username))
+=======
+    return redirect(f'/auth/{user.username}/')
+
+
+# Create your views here. 
+from django.http import HttpResponse 
+from django.utils.translation import ugettext as _ 
+import time 
+
+def test1_view(request): 
+    # 获得系统本地时间，返回的格式是 UTC 中的 struct_time 数据
+    t  = time.localtime() 
+    # 第 6 个元素是 tm_wday , 范围为 [0,6], 星期一 is 0 
+    n  = t[6] 
+    # 星期一到星期日字符串，每个字符串用 _() 标识出来。
+    weekdays = [_('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), 
+    _('Friday'), _('Saturday'), _('Sunday')] 
+    # 返回一个 HttpResponse 
+    return HttpResponse(weekdays[n])
+
+# def test1_view(request): 
+    
+    # return HttpResponse(weekdays[n])
+
+
+# from __future__ import unicode_literals
+ 
+import json
+from django.shortcuts import render
+ 
+def test2_view(request):
+    List = ['hahha', 'haaaaaaaaaaaaaaaaaaah']
+    Dict = {'af': 'asdsafa', 'af': 'afaf'}
+    return render(request, 'authen/testjs.html', {
+            'List': json.dumps(List),
+            'Dict': json.dumps(Dict)
+        })
+>>>>>>> a71e2675abccb462aedf69238f4ac8fa22668f5b

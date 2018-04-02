@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'a-!juw$hu(kmmnw+dk86*p-no_6c$2vspn82)d4^oxp-f5_f4e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,12 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # 'django.contrib.sites',
+    # 'django.contrib.sitemaps',
     'django.contrib.staticfiles',
     'authen',
     'oauth',
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,7 +53,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'bbs.middleware.UserBasedExceptionMiddleware',
+
+    ]
+
+# MIDDLEWARE_CLASSES = (
+#     'django.middleware.locale.LocaleMiddleware', # 默认？
+# )
+ 
 
 ROOT_URLCONF = 'bbs.urls'
 
@@ -65,6 +75,10 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+
+                'bbs.context_processor.logo',
+                # 'bbs.context_processor.ip_address',
             ],
         },
     },
@@ -106,6 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -117,6 +132,25 @@ USE_L10N = True
 USE_TZ = True
 
 
+# 修改默认语言
+# LANGUAGE_CODE = 'zh_hans'
+
+
+# django1.9以上
+LANGUAGES = (
+    ('en', ('English')),
+    ('zh-hans', ('中文简体')),
+    ('zh-hant', ('中文繁體')),
+)
+
+#翻译文件所在目录，需要手工创建
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+ 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.i18n",
+)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
@@ -172,5 +206,10 @@ EMAIL_ASYNC = 1
 EMAIL_ACTIVE = 1
 
 
+<<<<<<< HEAD
 #DOMAIN = "127.0.0.1:8001"
 DOMAIN = "39.106.190.98:8001"
+=======
+DOMAIN = "127.0.0.1:8001"
+
+>>>>>>> a71e2675abccb462aedf69238f4ac8fa22668f5b

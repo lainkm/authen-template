@@ -13,4 +13,5 @@ urlpatterns = [
 	path('logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
 	path('<str:username>/', views.profile, name="profile"),
 	path('activate/<str:token>/', views.activate, name="activate"),
+	path('test2_view', views.test2_view) # 测试国际化
 ]
