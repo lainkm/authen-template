@@ -74,6 +74,7 @@ class UserProfile(AbstractUser):
 		return reverse('profile', kwargs={'username': self.username})
 
 
+
 	# def save(self, *args, **kwargs):
 		"""
 		重写保存到数据库的操作

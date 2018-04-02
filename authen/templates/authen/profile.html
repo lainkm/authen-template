@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
+{% load i18n %}
 {% block title %}{{ page_user.nickname }}{% endblock %}
 
 
@@ -25,7 +25,9 @@
   <thead>
     <tr>
       <th><img src="{{ page_user.get_picture }}" class="img-thumbnail" width="60" height="60"></th>
-      <th><a href="{% url 'picture' %}" class="btn btn-link">Change Profile Photo</a> </th>
+      {% if page_user.username == user.username %}
+      <th><a href="{% url 'picture' %}" class="btn btn-link">{% trans 'Change Profile Photo' %}</a> </th>
+      {%endif%} 
     </tr>
   </thead>
   <tbody>
