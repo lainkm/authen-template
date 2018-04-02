@@ -26,7 +26,7 @@ SECRET_KEY = 'a-!juw$hu(kmmnw+dk86*p-no_6c$2vspn82)d4^oxp-f5_f4e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -166,10 +166,11 @@ ALLOWED_SIGNUP_DOMAINS = ['*']
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379/0' #结果保持数据库
 
 # 是否使用异步
-EMAIL_ASYNC = 0
+EMAIL_ASYNC = 1
 
 # 是否使用未验证邮箱定时设置is_active=0
 EMAIL_ACTIVE = 1
 
 
-DOMAIN = "127.0.0.1:8001"
+#DOMAIN = "127.0.0.1:8001"
+DOMAIN = "39.106.190.98:8001"

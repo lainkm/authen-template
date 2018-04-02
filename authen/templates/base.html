@@ -71,7 +71,9 @@
                                                                           id="unread-count">0</span> Inbox
                                     </a></li>
                                     <li><a href="{% url 'profile' user.username%}">Profile</a></li>
-                                    <li><a href="{% url 'password' %}">Reset Password</a></li>
+                                    
+                                    <li><a href="/admin">Admin</a></li>
+				    <li><a href="{% url 'password' %}">Reset Password</a></li>
                                     <li class="divider"></li>
                                     <li><a href="{% url 'logout' %}">Change Account</a></li>
                                 </ul>

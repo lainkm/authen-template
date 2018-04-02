@@ -159,7 +159,9 @@ def settings(request):
 
             message = 'Your profile were successfully edited.'
             messages.add_message(request, messages.SUCCESS, message)
-            return redirect(f'/auth/{user.username}/')
+
+            # return redirect(f'/auth/{user.username}/')
+            return redirect('/auth/{}/'.format(user.username))
 
     else:
         initial = {
@@ -243,4 +245,5 @@ def save_uploaded_picture(request):
         user.picture_url = result['eager'][0]['secure_url']
         user.save()
 
-    return redirect(f'/auth/{user.username}/')
+    # return redirect(f'/auth/{user.username}/')
+    return redirect('/auth/{}/'.format(user.username))
