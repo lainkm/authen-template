@@ -2,3 +2,4 @@ record.md
 db.sqlite3
 base_settings.py
 *.pyc
+venv
