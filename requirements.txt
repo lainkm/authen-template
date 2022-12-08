@@ -1,4 +1,4 @@
-certifi==2018.1.18
+certifi==2022.12.7
 cloudinary==1.11.0
 Django==2.0.3
 itsdangerous==0.24
